@@ -254,7 +254,7 @@ Rules for answering:
 
 const history=[]; // {role, content} — assistant/user turns without extracts
 
-const PROXY_URL = "PASTE-YOUR-WORKER-URL-HERE";
+const PROXY_URL = "https://ssr-rules-proxy.carcoar.workers.dev";
 
 async function askClaude(question, extracts){
   if(PROXY_URL.includes('PASTE-YOUR-WORKER-URL')) throw new Error('The proxy URL has not been configured yet. Open index.html and set PROXY_URL near the top of the script.');
