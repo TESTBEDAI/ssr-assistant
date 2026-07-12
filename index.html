@@ -1,10 +1,11 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SSR Rules Assistant — NRAA Standard Shooting Rules</title>
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;600;700&family=Libre+Franklin:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
@@ -253,7 +254,7 @@ Rules for answering:
 
 const history=[]; // {role, content} — assistant/user turns without extracts
 
-const PROXY_URL = "https://ssr-rules-proxy.carcoar.workers.dev";
+const PROXY_URL = "PASTE-YOUR-WORKER-URL-HERE";
 
 async function askClaude(question, extracts){
   if(PROXY_URL.includes('PASTE-YOUR-WORKER-URL')) throw new Error('The proxy URL has not been configured yet. Open index.html and set PROXY_URL near the top of the script.');
