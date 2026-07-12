@@ -28,6 +28,12 @@ header .title{flex:1;min-width:0}
 .sources{margin-top:12px;border-top:1px dashed #cfc9b6;padding-top:8px;font-size:12px;color:#4c5148}
 .sources summary{cursor:pointer}
 .sources .srcline{padding:3px 0 0 12px;font-family:monospace}
+.welcome{background:#fff;border:1px solid #e6e2d4;border-radius:12px;padding:20px 22px}
+.welcome h2{font-size:18px;color:#1d3a2c;margin-bottom:8px}
+.welcome p{font-size:14px;color:#4c5148;line-height:1.55;margin-bottom:14px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{background:#eef0e6;border:1px solid #dde0cf;border-radius:20px;padding:7px 14px;font-size:13px;cursor:pointer;color:#1d3a2c;font-weight:500}
+.chip:hover{background:#1d3a2c;color:#f2efe4}
 .errbox{background:#fbeceb;border:1px solid #e5b5b0;color:#7d221a;border-radius:10px;padding:10px 14px}
 #composer{padding:10px 16px 16px}
 .inputrow{max-width:780px;margin:0 auto;display:flex;gap:8px;background:#fff;border:1.5px solid #e6e2d4;border-radius:12px;padding:8px 8px 8px 14px}
@@ -60,7 +66,19 @@ header .title{flex:1;min-width:0}
   <button id="reset" title="Clear past questions and answers">Reset</button>
   <span class="jgbox">JG</span>
 </header>
-<div id="chat"><div class="inner" id="feed"></div></div>
+<div id="chat"><div class="inner" id="feed">
+  <div class="welcome" id="welcome">
+    <h2>Ask a rules question</h2>
+    <p>Answers are drawn directly from the January 2026 rulebooks — the New SSR V2.0 (Parts 1–8) and the legacy SSR V8.0 chapters — with rule numbers cited so you can verify. Where the two conflict on safety, range commands, targetry or competition procedure, the New SSR V2.0 takes precedence.</p>
+    <div class="chips">
+      <div class="chip">What is the minimum trigger weight for Target Rifle?</div>
+      <div class="chip">How are tied scores resolved in a deliberate match?</div>
+      <div class="chip">What are the sling rules for F-Class Standard?</div>
+      <div class="chip">When can a competitor challenge a shot value?</div>
+      <div class="chip">What does rule 16.28 say about grading?</div>
+    </div>
+  </div>
+</div></div>
 <div id="composer">
   <div class="inputrow">
     <textarea id="q" rows="1" placeholder="Ask a rules question"></textarea>
@@ -206,6 +224,7 @@ function scroll2(){ chat.scrollTop=chat.scrollHeight; }
 let busy=false;
 async function submit(){
   const text=q.value.trim(); if(!text||busy)return;
+  document.getElementById('welcome')?.remove();
   q.value=''; q.style.height='auto'; busy=true; send.disabled=true;
   addUser(text); addThinking();
   try{
@@ -224,7 +243,10 @@ async function submit(){
   }catch(e){ addErr('Error: '+e.message); }
   busy=false; send.disabled=false; q.focus();
 }
-document.getElementById('reset').addEventListener('click',()=>{ feed.innerHTML=''; history.length=0; q.focus(); });
+const WELCOME_HTML = document.getElementById('welcome').outerHTML;
+function wireChips(){ document.querySelectorAll('.chip').forEach(c=>c.addEventListener('click',()=>{ q.value=c.textContent; submit(); })); }
+wireChips();
+document.getElementById('reset').addEventListener('click',()=>{ feed.innerHTML=WELCOME_HTML; history.length=0; wireChips(); q.focus(); });
 send.addEventListener('click',submit);
 q.addEventListener('keydown',e=>{ if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();submit();} });
 q.addEventListener('input',()=>{ q.style.height='auto'; q.style.height=Math.min(q.scrollHeight,130)+'px'; });
